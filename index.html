@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuvella Caffe — Pesan dulu, ambil tanpa antre</title>
+  <meta name="description" content="Nuvella Caffe, Jl. Pahlawan No.15 Madiun. Pesan coffe dan dessert lebih dulu, pilih jam ambil, reservasi meja, dan pantau status pesananmu." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Latar 3D: blob + biji kopi melayang (diisi js/effects/background.js) -->
+  <div class="bg-scene" id="bgScene" aria-hidden="true"></div>
+  <!-- Tirai transisi antar halaman -->
+  <div class="wipe" id="wipe" aria-hidden="true"><span>Nuvella <small>CAFFE</small></span></div>
+  <!-- ========== NAVIGASI ATAS ========== -->
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a href="#/beranda" class="brand" aria-label="Nuvella Caffe, ke beranda">
+        <span class="brand__name">Nuvella</span><span class="brand__suffix">Caffe</span>
+      </a>
+
+      <nav class="topnav" aria-label="Navigasi utama">
+        <a href="#/beranda" data-nav="beranda">Beranda</a>
+        <a href="#/tentang" data-nav="tentang">Tentang Kami</a>
+        <a href="#/menu" data-nav="menu">Menu</a>
+        <a href="#/cake-studio" data-nav="cake-studio">Cake Studio</a>
+        <a href="#/member" data-nav="member">Member</a>
+        <a href="#/reservasi" data-nav="reservasi">Reservasi</a>
+        <a href="#/faq" data-nav="faq">FAQ</a>
+      </nav>
+
+      <a class="cart-btn admin-btn" href="#/admin" id="adminOpen" aria-label="Masuk admin">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.6-3.6 3.4-5.6 7-5.6s6.4 2 7 5.6"/></svg>
+        <span class="cart-btn__label">Admin</span>
+      </a>
+      <a class="cart-btn" href="#/keranjang" id="cartOpen" aria-label="Buka keranjang">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span class="cart-btn__label">Keranjang</span>
+        <span class="cart-btn__count" id="cartCount" hidden>0</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ========== BERANDA ========== -->
+    <section class="page" data-page="beranda" aria-labelledby="h-beranda">
+      <div class="banner">
+        <div class="banner__slides" aria-hidden="true"><img class="banner__slide" data-foto="ice-cream-brownies" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Ice Cream Brownies" /><img class="banner__slide" data-foto="pour-tiramisu" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Pour Tiramisu" /><img class="banner__slide" data-foto="red-velvet-cheesecake" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Red Velvet Cheesecake" /><img class="banner__slide" data-foto="strawberry-cheese" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Mille Crepe Strawberry Cheese" /><img class="banner__slide" data-foto="pistachio-cromboloni" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Pistachio Cromboloni" /><img class="banner__slide" data-foto="salted-caramel-latte" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Salted Caramel Latte" /></div>
+        <div class="banner__veil"></div>
+        <div class="container banner__inner">
+          <p class="hero__open" id="openNow" hidden></p>
+          <h1 id="h-beranda" class="display">Pesan dulu,<br />ambil tanpa antre.</h1>
+          <p class="lead">Pilih menu, tentukan jam ambil, dan pesananmu sudah siap saat kamu tiba di Nuvella Caffe. Dibuat untuk pagi yang terburu-buru dan sore yang padat.</p>
+          <div class="hero__actions">
+            <a href="#/menu" class="btn btn--primary btn--lg">Pesan Sekarang</a>
+            <a href="#/reservasi" class="btn btn--secondary btn--lg">Reservasi Meja</a>
+          </div>
+          <div class="banner__chips"><span>● Siap dalam 15 menit</span><span>★ Biji lokal Wilis &amp; Ijen</span><span>♨ Dipanggang segar</span></div>
+        </div>
+        <svg class="banner__wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50 C240 100 480 0 720 40 C960 80 1200 10 1440 50 L1440 90 L0 90 Z" fill="#fbf4ec"/></svg>
+      </div>
+
+      <div class="novella-home">
+        <div class="novella-home__inner">
+          <div class="mascot-wrap" id="mascotWrap">
+            <button type="button" class="mascot mascot--home is-happy" id="mascot" aria-label="Sentuh Novella, maskot Nuvella Caffe">
+              <svg class="mascot__svg" viewBox="0 0 290 250" aria-hidden="true">
+            <ellipse class="m-shadow" cx="136" cy="228" rx="80" ry="11" fill="#e6d5c0" opacity="0.8"/>
+            <g class="m-body">
+              <g class="m-steam" fill="none" stroke="#d9ccbc" stroke-width="7" stroke-linecap="round">
+                <path class="m-steam1" d="M118 72 C104 58 134 48 120 30 C113 20 123 12 123 12"/>
+                <path class="m-steam2" d="M148 74 C136 62 160 52 148 36"/>
+              </g>
+              <!-- gagang -->
+              <path d="M214 114 C264 106 268 180 212 186" fill="none" stroke="#e6cfb5" stroke-width="21" stroke-linecap="round"/>
+              <path d="M214 114 C264 106 268 180 212 186" fill="none" stroke="#fbf1e4" stroke-width="14" stroke-linecap="round"/>
+              <!-- badan cangkir -->
+              <path d="M52 102 C46 174 76 222 136 222 C196 222 226 174 220 102 Z" fill="#fbf1e4" stroke="#e6cfb5" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M62 172 C74 206 100 218 136 218 C172 218 198 206 210 172 C190 198 166 204 136 204 C106 204 82 198 62 172 Z" fill="#f2dfc7" opacity="0.7"/>
+              <!-- bibir & kopi -->
+              <ellipse cx="136" cy="102" rx="86" ry="25" fill="#fbf1e4" stroke="#e6cfb5" stroke-width="3"/>
+              <ellipse cx="136" cy="104" rx="76" ry="18" fill="#6a3a22"/>
+              <ellipse cx="136" cy="107" rx="66" ry="12" fill="#3f200f"/>
+              <path d="M92 100 Q110 94 128 96" fill="none" stroke="#8a5a3c" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+              <!-- wajah -->
+              <g class="m-eyes">
+                <g class="m-eye"><circle cx="108" cy="152" r="8" fill="#3a1c0e"/><circle cx="110.6" cy="148.6" r="2.7" fill="#ffffff"/></g>
+                <g class="m-eye"><circle cx="164" cy="152" r="8" fill="#3a1c0e"/><circle cx="166.6" cy="148.6" r="2.7" fill="#ffffff"/></g>
+              </g>
+              <g class="m-eyes-happy" fill="none" stroke="#3a1c0e" stroke-width="4.5" stroke-linecap="round">
+                <path d="M98 155 Q108 141 118 155"/>
+                <path d="M154 155 Q164 141 174 155"/>
+              </g>
+              <path class="m-mouth" d="M126 163 Q136 174 146 163" fill="none" stroke="#3a1c0e" stroke-width="3.6" stroke-linecap="round"/>
+              <path class="m-mouth-open" d="M123 162 Q136 186 149 162 Z" fill="#b24d44" stroke="#3a1c0e" stroke-width="3" stroke-linejoin="round"/>
+              <ellipse cx="86" cy="168" rx="14" ry="9" fill="#d9a066" opacity="0.8"/>
+              <ellipse cx="186" cy="168" rx="14" ry="9" fill="#d9a066" opacity="0.8"/>
+            </g>
+            <g class="m-marks" fill="none" stroke="#5a2e1a" stroke-width="6" stroke-linecap="round">
+              <path d="M240 46 L250 64"/>
+              <path d="M258 64 L276 72"/>
+            </g>
+          </svg>
+            </button>
+          </div>
+          <div class="novella-home__text">
+            <p class="eyebrow">Kenalan dulu</p>
+            <h2 class="section-title">Hai, aku Novella! ☕</h2>
+            <p class="home-bubble" id="bubble"><span id="bubbleText">Sentuh aku, ya! 👆</span></p>
+            <p>Maskot Nuvella Caffe. Aku siap menemanimu memilih kopi dan dessert favorit, lalu pesananmu tinggal diambil tanpa antre.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="promo-band">
+        <h2 class="section-title">Jadi Member Nuvella</h2>
+        <div class="promo-grid">
+          <div class="promo-card"><span>💳</span><h3>Kartu member Rp20.000</h3><p>Mulai dari level Silver (diskon 2%). Makin sering belanja, level naik ke Gold (diskon 4%) lalu Platinum (diskon 6%).</p></div>
+          <div class="promo-card"><span>🎁</span><h3>15 poin, dapat hadiah</h3><p>Tiap pembelian dapat 1 poin. Kumpulkan 15 poin dan tukarkan dengan hadiah spesial yang diganti admin tiap 2 bulan.</p></div>
+          <div class="promo-card"><span>💰</span><h3>Bunga 2% jadi tabungan</h3><p>Selesaikan 15 poin, dapat bunga 2% dari belanja minimal Rp30.000. Sudah Rp10.000? Tukarkan ke Dana atau ShopeePay.</p></div>
+        </div>
+        <a href="#/member" class="btn btn--primary">Daftar member sekarang</a>
+      </div>
+
+      <div class="container favorites">
+        <div class="favorites__head">
+          <h2 class="section-title">Menu Rekomendasi</h2>
+          <a href="#/menu/signature" class="link-arrow">Lihat semua menu</a>
+        </div>
+        <ul class="menu-list" id="favoritesList"></ul>
+      </div>
+
+      <div class="container why">
+        <p class="eyebrow">Kenapa Nuvella</p>
+        <h2 class="section-title">Dibuat untuk harimu yang padat</h2>
+        <div class="why__grid">
+          <div class="why__card"><span class="why__icon" aria-hidden="true">⚡</span><h3>Siap dalam 15 menit</h3><p>Pesan dulu dari rumah, pesananmu siap saat kamu tiba.</p></div>
+          <div class="why__card"><span class="why__icon" aria-hidden="true">☕</span><h3>Biji lokal pilihan</h3><p>Biji kopi dari petani lereng Gunung Wilis dan Ijen.</p></div>
+          <div class="why__card"><span class="why__icon" aria-hidden="true">🥐</span><h3>Dipanggang segar</h3><p>Cheesecake, mille crepe, dan pastry buatan sendiri.</p></div>
+          <div class="why__card"><span class="why__icon" aria-hidden="true">🎂</span><h3>Cake Studio</h3><p>Rancang kue pesananmu sendiri, lalu kirim desainnya ke admin.</p></div>
+        </div>
+      </div>
+
+      <div class="container steps">
+        <p class="eyebrow">Cara Pesan</p>
+        <h2 class="section-title">Tiga langkah, tanpa antre</h2>
+        <ol class="steps__list">
+          <li><span class="steps__num">1</span><div><h3>Pilih menu</h3><p>Buka menu, pilih kopi dan dessert favoritmu.</p></div></li>
+          <li><span class="steps__num">2</span><div><h3>Tentukan jam ambil</h3><p>Atur kapan kamu mau mengambil pesanan.</p></div></li>
+          <li><span class="steps__num">3</span><div><h3>Ambil di Nuvella</h3><p>Datang ke Jl. Pahlawan No.15, Madiun, pesananmu sudah siap.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="cta-band">
+        <div class="cta-band__inner">
+          <div>
+            <h2 class="cta-band__title">Mau duduk lebih lama?</h2>
+            <p>Reservasi meja dulu supaya tempatmu aman di Nuvella Caffe.</p>
+          </div>
+          <div class="cta-band__actions">
+            <a href="#/menu" class="btn btn--lg cta-band__btn">Pesan Sekarang</a>
+            <a href="#/reservasi" class="btn btn--lg cta-band__btn cta-band__btn--ghost">Reservasi Meja</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container class-wrap">
+        <div class="class-card" id="kelasKue">
+          <div class="class-card__anim" id="kelasAnim" aria-hidden="true">
+            <svg class="cakeart" viewBox="0 0 240 240">
+              <ellipse cx="120" cy="216" rx="88" ry="12" fill="#dcc9b6" opacity=".55"/>
+              <g class="cakeart__bob">
+                <rect x="38" y="140" width="164" height="70" rx="20" fill="#deccb9"/>
+                <path d="M38 150 Q38 138 50 138 H190 Q202 138 202 150 V160 q-13.7 22 -27.3 0 q-13.7 22 -27.3 0 q-13.7 22 -27.3 0 q-13.7 22 -27.3 0 q-13.7 22 -27.3 0 q-13.7 22 -27.3 0 Z" fill="#fff"/>
+                <circle cx="62" cy="188" r="4" fill="#ffd36b"/><circle cx="98" cy="196" r="4" fill="#c9954f"/><circle cx="142" cy="190" r="4" fill="#fff"/><circle cx="180" cy="196" r="4" fill="#ffd36b"/>
+                <rect x="68" y="90" width="104" height="54" rx="18" fill="#fde3bf"/>
+                <path d="M68 100 Q68 88 80 88 H160 Q172 88 172 100 V108 q-13 18 -26 0 q-13 18 -26 0 q-13 18 -26 0 q-13 18 -26 0 Z" fill="#d3baa1"/>
+                <g class="cakeart__eyes"><ellipse cx="104" cy="126" rx="5" ry="6.5" fill="#60462d"/><ellipse cx="136" cy="126" rx="5" ry="6.5" fill="#60462d"/></g>
+                <circle cx="90" cy="136" r="7" fill="#deccb9" opacity=".85"/><circle cx="150" cy="136" r="7" fill="#deccb9" opacity=".85"/>
+                <path d="M112 134 q8 9 16 0" fill="none" stroke="#60462d" stroke-width="3" stroke-linecap="round"/>
+                <rect x="116" y="58" width="8" height="32" rx="3" fill="#fff"/><path d="M116 68 l8 -5 M116 78 l8 -5" stroke="#d3baa1" stroke-width="3"/>
+                <path class="cakeart__flame" d="M120 32 q-10 13 0 24 q10 -11 0 -24z" fill="#ffb347"/><path class="cakeart__flame" d="M120 42 q-5 7 0 13 q5 -6 0 -13z" fill="#fff3b0"/>
+              </g>
+              <g class="cakeart__spark" fill="#ffd36b"><path d="M30 70 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z"/><path d="M206 96 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"/></g>
+            </svg>
+            <span class="ca ca--1">🧁</span><span class="ca ca--2">🍓</span><span class="ca ca--3">🍰</span>
+            <span class="ca ca--4">🥄</span><span class="ca ca--5">✨</span><span class="ca ca--6">🍒</span>
+          </div>
+          <div class="class-card__body">
+            <p class="eyebrow">Event Triwulan</p>
+            <h2 class="section-title">Kelas Kreasi Kue Nuvella</h2>
+            <p>Event triwulan yang diadakan Nuvella Caffe.</p>
+            <a class="btn btn--primary btn--lg" href="https://forms.gle/yBJYHWNr6jyt8us66" target="_blank" rel="noopener">Google Form Pendaftaran</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TENTANG KAMI ========== -->
+    <section class="page" data-page="tentang" aria-labelledby="h-tentang" hidden>
+      <div class="container page-head">
+        <p class="eyebrow">Cerita Nuvella Caffe · Madiun</p>
+        <h1 id="h-tentang" class="page-title">Menghargai waktumu tanpa mengurangi kualitas rasa.</h1>
+        <p class="lead">Berawal dari Jl. Pahlawan No.15, Madiun, Nuvella Caffe hadir untuk kamu yang memiliki mobilitas tinggi namun tetap menginginkan secangkir coffe spesialti dan hidangan penutup yang dibuat dengan sepenuh hati.</p>
+      </div>
+
+      <div class="container shop3d-wrap">
+        <div class="shop3d cafe run" id="shop3d" role="img" aria-label="Animasi tur kedai Nuvella Caffe: pintu terbuka, masuk ke meja kasir dengan meja dan kursi pengunjung di kiri dan kanan">
+          <div class="cafe__look"><div class="cafe__cam" id="cafeCam"></div></div>
+          <div class="cafe__shade"></div>
+          <div class="cafe__motes"></div>
+          <div class="cafe__veil"></div>
+          <p class="shop3d__hint">Geser kursor atau sentuh untuk melihat sekeliling</p>
+        </div>
+
+        <div class="shop3d__caption">
+          <p class="eyebrow">Kedai Nuvella · 3D</p>
+          <h2 class="section-title">Mampir, atau pesan dari rumah.</h2>
+          <p>Dua lantai di Jl. Pahlawan No.15, Madiun. Lihat kedai kami dari berbagai sisi, lalu pilih: ambil pesananmu di meja pickup, atau duduk lebih lama.</p>
+          <ul class="shop3d__list">
+            <li><span>🏠</span><div><strong>Lantai 1</strong><small>Meja pickup dan meja reguler</small></div></li>
+            <li><span>🪑</span><div><strong>Lantai 2</strong><small>Ruang meeting &amp; acara hingga 20 orang</small></div></li>
+            <li><span>🥐</span><div><strong>Dipanggang tiap pagi</strong><small>Pastry dan cake selalu segar</small></div></li>
+          </ul>
+          <a href="#/reservasi" class="btn btn--primary">Reservasi Tempat</a>
+        </div>
+      </div>
+
+      <div class="container about-story">
+        <div class="about-story__card">
+          <div class="about-story__content">
+            <h2 class="section-title">Dirancang untuk ritme harimu</h2>
+            <p>Kami memahami bahwa antrean panjang di pagi hari atau di sela jam istirahat sering kali menyita waktu berharga. Melalui sistem pesan-ambil (pre-order pickup), barista kami menyiapkan pesananmu tepat sebelum kamu tiba di meja pickup.</p>
+            <p>Jika ingin duduk lebih lama, berdiskusi, atau mengadakan pertemuan, lantai dua kami menyediakan ruang yang tenang dan nyaman hingga 20 orang yang dapat dipesan lebih dulu melalui menu Reservasi.</p>
+            <div class="about-story__cta">
+              <a href="#/menu" class="btn btn--primary">Jelajahi Menu</a>
+              <a href="#/reservasi" class="btn btn--secondary">Reservasi Tempat</a>
+            </div>
+          </div>
+          <div class="about-story__stats" aria-label="Ringkasan nilai Nuvella Caffe">
+            <div class="stat-box">
+              <strong class="stat-box__num">100%</strong>
+              <span class="stat-box__label">Biji coffe lokal lereng Gunung Wilis &amp; Ijen</span>
+            </div>
+            <div class="stat-box">
+              <strong class="stat-box__num">15 mnt</strong>
+              <span class="stat-box__label">Interval slot waktu ambil yang presisi</span>
+            </div>
+            <div class="stat-box">
+              <strong class="stat-box__num">-Rp2k</strong>
+              <span class="stat-box__label">Potongan harga untuk pemakaian tumbler sendiri</span>
+            </div>
+            <div class="stat-box">
+              <strong class="stat-box__num">20 org</strong>
+              <span class="stat-box__label">Kapasitas ruang acara &amp; meeting lantai dua</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-pillars">
+          <article class="pillar-card">
+            <div class="pillar-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 8h12v5a6 6 0 0 1-12 0z"/><path d="M17 9h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3v2M11 3v2M14 3v2"/></svg>
+            </div>
+            <h3>Coffe Petani Lokal</h3>
+            <p>Kami menggunakan biji coffe pilihan dari petani di lereng Gunung Wilis dan Ijen yang dibeli secara langsung dengan harga yang adil.</p>
+          </article>
+
+          <article class="pillar-card">
+            <div class="pillar-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>
+            </div>
+            <h3>Pastry &amp; Dessert Segar</h3>
+            <p>Mulai dari Matcha Cheesecake hingga Pistachio Cromboloni, seluruh pastry dan kue kami dipanggang serta disiapkan segar setiap pagi.</p>
+          </article>
+
+          <article class="pillar-card">
+            <div class="pillar-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M7 20c5-1 9-5 10-10 1-4 0-6-0-6s-2-1-6 0C6 5 2 9 1 14"/><path d="M4 20l7-7"/></svg>
+            </div>
+            <h3>Komitmen Keberlanjutan</h3>
+            <p>Kemasan bawa pulang kami berbahan kertas daur ulang, ampas coffe diolah menjadi kompos, dan tersedia diskon Rp2.000 saat kamu membawa tumbler sendiri.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== MENU ========== -->
+    <section class="page" data-page="menu" aria-labelledby="h-menu" hidden>
+      <div class="container page-head">
+        <h1 id="h-menu" class="page-title">Menu Kami</h1>
+        <p class="lead">Semua harga dalam rupiah. Tekan tombol tambah, pesanan langsung masuk keranjang.</p>
+      </div>
+      <div class="container">
+        <div class="tabs" role="tablist" aria-label="Kategori menu" id="menuTabs"></div>
+        <ul class="menu-list" id="menuList" role="tabpanel"></ul>
+      </div>
+    </section>
+
+    <!-- ========== CAKE STUDIO ========== -->
+    <section class="page" data-page="cake-studio" aria-labelledby="h-cake" hidden>
+      <div class="container page-head">
+        <p class="eyebrow">Cake Studio · Custom Cake</p>
+        <h1 id="h-cake" class="page-title">Custome kue pesananmu.</h1>
+        <p class="lead">Pilih budget, bentuk, jumlah tingkat, warna, sprinkle, dan topping. Kue di bawah langsung berubah, lalu kirim desainmu ke barista via WhatsApp.</p>
+      </div>
+
+      <div class="container studio">
+        <!-- Pratinjau kue -->
+        <div class="studio__preview">
+          <div class="studio__stage">
+            <img id="cakePhoto" class="cake-photo" alt="Foto kue sesuai pilihanmu" hidden />
+            <svg id="cakeSvg" class="cake-svg" viewBox="0 0 400 360" role="img" aria-label="Pratinjau kue buatanmu"></svg>
+          </div>
+          <div class="studio__bar">
+            <div><small id="ckBadge">Bulat · Kecil 14 cm</small><strong id="ckTotal">Rp0</strong></div>
+            <span class="budget-pill" id="ckPill">Pas di budget</span>
+          </div>
+          <div class="meter" id="ckMeterBox"><i id="ckMeter"></i></div>
+        </div>
+
+        <!-- Pilihan -->
+        <div class="studio__panel" id="studioPanel">
+          <section class="opt-group" aria-labelledby="ck-h1">
+            <h3 id="ck-h1"><span class="opt-num">1</span> Budget harga</h3>
+            <div class="budget-row">
+              <label for="ckBudget" class="budget-row__label">Budget kamu <strong id="ckBudgetVal">Rp150.000</strong></label>
+              <input id="ckBudget" type="range" min="50000" max="500000" step="5000" value="150000" />
+              <div class="budget-row__scale"><span>Rp50rb</span><span>Rp500rb</span></div>
+            </div>
+            <button type="button" class="btn btn--secondary" id="ckFit">✨ Sesuaikan otomatis ke budget</button>
+          </section>
+
+          <section class="opt-group" aria-labelledby="ck-h2">
+            <h3 id="ck-h2"><span class="opt-num">2</span> Bentuk kue</h3>
+            <div class="opt-row" id="ckShapes"></div>
+          </section>
+
+          <section class="opt-group" aria-labelledby="ck-h3">
+            <h3 id="ck-h3"><span class="opt-num">3</span> Ukuran</h3>
+            <div class="opt-row opt-row--cards" id="ckSizes"></div>
+          </section>
+
+          <section class="opt-group" aria-labelledby="ck-h3b">
+            <h3 id="ck-h3b"><span class="opt-num">4</span> Jumlah tingkat</h3>
+            <div class="opt-row opt-row--cards" id="ckTiers"></div>
+          </section>
+
+          <section class="opt-group" aria-labelledby="ck-h4">
+            <h3 id="ck-h4"><span class="opt-num">5</span> Warna &amp; rasa kue</h3>
+            <div class="opt-row" id="ckSponges"></div>
+          </section>
+
+          <section class="opt-group" aria-labelledby="ck-h5">
+            <h3 id="ck-h5"><span class="opt-num">6</span> Warna krim</h3>
+            <div class="opt-row opt-row--swatch" id="ckCreams"></div>
+            <label class="custom-color" for="ckCream">Warna lain
+              <input type="color" id="ckCream" value="#f4e3c3" />
+            </label>
+          </section>
+
+          <section class="opt-group" aria-labelledby="ck-h6">
+            <h3 id="ck-h6"><span class="opt-num">7</span> Sprinkle</h3>
+            <div class="opt-row" id="ckSprinkles"></div>
+          </section>
+
+          <section class="opt-group" aria-labelledby="ck-h7">
+            <h3 id="ck-h7"><span class="opt-num">8</span> Topping <span class="optional">(boleh lebih dari satu)</span></h3>
+            <div class="opt-row" id="ckToppings"></div>
+          </section>
+
+          <section class="opt-group" aria-labelledby="ck-h8">
+            <h3 id="ck-h8"><span class="opt-num">9</span> Tulisan di kue <span class="optional">(opsional)</span></h3>
+            <div class="field">
+              <input id="ckText" type="text" maxlength="20" placeholder="Contoh: Happy Birthday Rani" autocomplete="off" />
+            </div>
+          </section>
+
+          <aside class="summary" aria-labelledby="h-ck-sum">
+            <h2 id="h-ck-sum" class="summary__title">Ringkasan desain</h2>
+            <ul class="summary__items" id="ckItems"></ul>
+            <div class="summary__total"><span>Estimasi total</span><strong id="ckTotal2">Rp0</strong></div>
+            <button type="button" class="btn btn--primary btn--block" id="ckOrder">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>
+              <span class="btn__label">Lanjut ke Order Summary</span>
+            </button>
+            <p class="summary__note">Alur: Cake Studio → Order Summary → WhatsApp → Konfirmasi Admin. Harga bersifat estimasi, harga akhir dikonfirmasi admin.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== KERANJANG (+ STATUS PESANAN) ========== -->
+    <section class="page" data-page="keranjang" aria-labelledby="h-keranjang" hidden>
+      <div class="container page-head">
+        <h1 id="h-keranjang" class="page-title">Keranjang</h1>
+        <p class="lead">Cek pesananmu, isi data, pilih jam ambil, lalu pantau statusnya di halaman yang sama.</p>
+      </div>
+
+      <!-- Kosong -->
+      <div class="container" id="cartEmptyPage" hidden>
+        <div class="empty">
+          <h2>Keranjangmu masih kosong</h2>
+          <p>Tambahkan minimal satu menu untuk mulai memesan.</p>
+          <a href="#/menu" class="btn btn--primary">Lihat Menu</a>
+        </div>
+      </div>
+
+      <!-- Status pesanan aktif -->
+      <div class="container status" id="statusBody" hidden>
+        <div class="status__main">
+          <p class="status__code">Kode pesanan <strong id="statusCode">NV-0000</strong></p>
+          <h2 class="status__headline" id="statusHeadline">Pesanan diterima</h2>
+          <p class="lead" id="statusSub">Ambil pukul 00.00 atas nama —</p>
+
+          <div class="ship" id="shipBox" hidden>
+            <h3 class="ship__title">Pengantaran <span id="shipCourier"></span></h3>
+            <ol class="ship__steps" id="shipSteps"></ol>
+            <p class="mbr-text" id="shipAddr"></p>
+          </div>
+
+          <ol class="timeline" id="timeline">
+            <li data-step="0"><span class="timeline__dot"></span><div><h3>Diterima</h3><p>Pesananmu sudah masuk ke barista.</p></div></li>
+            <li data-step="1"><span class="timeline__dot"></span><div><h3>Sedang disiapkan</h3><p>Coffe dan dessert sedang dibuat.</p></div></li>
+            <li data-step="2"><span class="timeline__dot"></span><div><h3>Siap diambil</h3><p>Datang ke meja pickup dan sebutkan kode pesanan.</p></div></li>
+            <li data-step="3"><span class="timeline__dot"></span><div><h3>Selesai</h3><p>Terima kasih, sampai jumpa lagi!</p></div></li>
+          </ol>
+        </div>
+
+        <aside class="summary">
+          <h2 class="summary__title">Detail pesanan</h2>
+          <ul class="summary__items" id="statusItems"></ul>
+          <div class="summary__total"><span>Total</span><strong id="statusTotal">Rp0</strong></div>
+          <div class="rate" id="rateBox" hidden>
+            <h3 class="rate__title">Beri rating pesananmu</h3>
+            <p class="rate__sub">Pesanan sudah selesai. Rating wajib diisi sebelum menutup status.</p>
+            <div class="rate__stars" id="rateStars" role="radiogroup" aria-label="Rating bintang"></div>
+            <input id="rateNote" type="text" maxlength="120" placeholder="Komentar (opsional)" />
+            <p class="field__error" id="rateError" role="alert" hidden>Pilih jumlah bintang dulu ya.</p>
+            <button type="button" class="btn btn--primary btn--block" id="rateSubmit">Kirim rating</button>
+          </div>
+          <p class="rate__done" id="rateDone" hidden></p>
+          <button type="button" class="btn btn--secondary btn--block" id="markDone" hidden>Pesanan sudah saya ambil</button>
+          <button type="button" class="btn btn--secondary btn--block" id="clearStatus" hidden>Tutup status</button>
+          <a class="btn btn--whatsapp btn--block" href="https://wa.me/6285792304941" target="_blank" rel="noopener" id="waStatus">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>
+            Tanya barista via WhatsApp
+          </a>
+        </aside>
+      </div>
+
+      <!-- Isi keranjang + form jam ambil -->
+      <div class="container cart-block" id="cartBody" hidden>
+        <h2 class="section-title cart-block__title">Pesanan di keranjang</h2>
+        <div class="checkout">
+          <div class="checkout__col">
+            <ul class="cart-list" id="cartItems"></ul>
+
+            <form class="checkout__form" id="orderForm" novalidate>
+              <div class="field">
+                <label for="name">Nama</label>
+                <input id="name" name="name" type="text" autocomplete="name" placeholder="Nama untuk dipanggil saat pickup" />
+                <p class="field__error" id="nameError" role="alert" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="phone">Nomor HP</label>
+                <input id="phone" name="phone" type="text" inputmode="numeric" autocomplete="tel" placeholder="Contoh: 085755183802" aria-describedby="phoneHint phoneError" />
+                <p class="field__hint" id="phoneHint">Hanya angka, 10–13 digit.</p>
+                <div class="field__error" id="phoneError" role="alert" hidden>
+                  <strong id="phoneErrorTitle"></strong>
+                  <span id="phoneErrorFix"></span>
+                </div>
+              </div>
+
+              <fieldset class="field">
+                <legend>Cara terima pesanan</legend>
+                <div class="slots">
+                  <label class="slot"><input type="radio" name="mode" value="pickup" checked /> Ambil di kafe</label>
+                  <label class="slot"><input type="radio" name="mode" value="delivery" /> Diantar (online)</label>
+                </div>
+              </fieldset>
+
+              <div class="field" id="deliveryBox" hidden>
+                <label for="courier">Kurir</label>
+                <select id="courier"><option>Gojek</option><option>Grab</option></select>
+                <label for="address">Alamat pengantaran</label>
+                <textarea id="address" rows="3" maxlength="200" placeholder="Alamat lengkap, patokan, dan nomor yang bisa dihubungi kurir"></textarea>
+                <p class="field__hint">Ongkir dibayar ke kurir saat pesanan sampai. Kamu bisa pantau posisi pesanan di halaman status.</p>
+                <p class="field__error" id="addressError" role="alert" hidden>Isi alamat pengantaran minimal 10 huruf.</p>
+              </div>
+
+              <fieldset class="field">
+                <legend>Jam ambil</legend>
+                <div class="slots" id="slots"></div>
+                <p class="field__error" id="slotError" role="alert" hidden>Pilih salah satu jam ambil.</p>
+              </fieldset>
+
+              <div class="field">
+                <label for="note">Catatan <span class="optional">(opsional)</span></label>
+                <input id="note" name="note" type="text" placeholder="Contoh: less sugar, tanpa es" />
+              </div>
+            </form>
+          </div>
+
+          <aside class="summary" aria-labelledby="h-summary">
+            <h2 id="h-summary" class="summary__title">Ringkasan pesanan</h2>
+            <ul class="summary__items" id="summaryItems"></ul>
+            <div class="summary__total">
+              <span>Total</span>
+              <strong id="summaryTotal">Rp0</strong>
+            </div>
+            <p class="field__hint" id="discountLine" hidden></p>
+            <button type="submit" form="orderForm" class="btn btn--primary btn--block" id="submitOrder">
+              <span class="btn__label">Konfirmasi Pesanan</span>
+              <span class="spinner" aria-hidden="true"></span>
+            </button>
+            <a class="btn btn--whatsapp btn--block" id="waOrder" href="https://wa.me/6285792304941" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>
+              Kirim pesanan via WhatsApp
+            </a>
+            <p class="summary__note">Bayar di kasir saat mengambil pesanan.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== RESERVASI ========== -->
+    <section class="page" data-page="reservasi" aria-labelledby="h-reservasi" hidden>
+      <div class="container page-head">
+        <h1 id="h-reservasi" class="page-title">Reservasi Meja &amp; Acara</h1>
+        <p class="lead">Lengkapi detail kedatanganmu. Saat menekan tombol reservasi, kamu akan langsung terhubung ke WhatsApp Admin Nuvella Caffe.</p>
+      </div>
+
+      <div class="container checkout">
+        <form class="checkout__form" id="reservationForm" novalidate>
+          <div class="field">
+            <label for="resName">Nama Pemesan</label>
+            <input id="resName" name="resName" type="text" autocomplete="name" placeholder="Contoh: Budi Santoso" />
+            <p class="field__error" id="resNameError" role="alert" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="resPhone">Nomor HP / WhatsApp</label>
+            <input id="resPhone" name="resPhone" type="text" inputmode="numeric" autocomplete="tel" placeholder="Contoh: 085755183802" />
+            <p class="field__hint" id="resPhoneHint">Hanya angka, 10–13 digit diawali 08.</p>
+            <p class="field__error" id="resPhoneError" role="alert" hidden></p>
+          </div>
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="resDate">Tanggal Reservasi</label>
+              <input id="resDate" name="resDate" type="date" />
+              <p class="field__error" id="resDateError" role="alert" hidden></p>
+            </div>
+
+            <div class="field">
+              <label for="resTime">Jam Kedatangan</label>
+              <select id="resTime" name="resTime">
+                <option value="08.00 WIB">08.00 WIB</option>
+                <option value="09.00 WIB">09.00 WIB</option>
+                <option value="10.00 WIB">10.00 WIB</option>
+                <option value="11.00 WIB">11.00 WIB</option>
+                <option value="13.00 WIB">13.00 WIB</option>
+                <option value="15.00 WIB">15.00 WIB</option>
+                <option value="17.00 WIB">17.00 WIB</option>
+                <option value="19.00 WIB" selected>19.00 WIB</option>
+                <option value="20.00 WIB">20.00 WIB</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="resPax">Jumlah Orang</label>
+              <input id="resPax" name="resPax" type="number" min="1" max="6" value="6" />
+              <p class="field__hint" id="resPaxHint">Meja reguler (lantai 1) maksimal 6 orang per meja. Area lantai 2 hingga 20 orang.</p>
+              <p class="field__error" id="resPaxError" role="alert" hidden></p>
+            </div>
+
+            <div class="field">
+              <label for="resArea">Pilihan Area</label>
+              <select id="resArea" name="resArea">
+                <option value="Meja Reguler (Lantai 1)">Meja Reguler (Lantai 1)</option>
+                <option value="Area Lantai 2 (Meeting / Acara Kecil)">Area Lantai 2 (Meeting / Acara Kecil)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="resNote">Catatan Kebutuhan <span class="optional">(opsional)</span></label>
+            <input id="resNote" name="resNote" type="text" placeholder="Contoh: rapat komunitas, butuh colokan listrik, pre-order kue" />
+          </div>
+        </form>
+
+        <aside class="summary" aria-labelledby="h-res-summary">
+          <h2 id="h-res-summary" class="summary__title">Ringkasan reservasi</h2>
+          <ul class="summary__items" id="resSummaryItems"></ul>
+          <button type="submit" form="reservationForm" class="btn btn--primary btn--block" id="submitReservation">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>
+            <span class="btn__label">Reservasi via WhatsApp Admin</span>
+          </button>
+          <a class="btn btn--whatsapp btn--block" id="waReserveDirect" href="https://wa.me/6285755183802" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>
+            Chat Admin (0857-5518-3802)
+          </a>
+          <p class="summary__note">Konfirmasi ketersediaan meja dikirim langsung melalui WhatsApp Admin.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ========== MEMBER DIGITAL ========== -->
+    <section class="page" data-page="member" aria-labelledby="h-member" hidden>
+      <div class="container page-head">
+        <h1 id="h-member" class="page-title">Member Digital</h1>
+        <p class="lead">Kumpulkan 15 poin dari pembelianmu di Nuvella Caffe, lalu tukarkan dengan hadiah spesial.</p>
+      </div>
+
+      <!-- Belum punya kartu -->
+      <div class="container mbr" id="mbrJoin" hidden>
+        <div class="mbr__info">
+          <h2 class="section-title">Cara kerja member</h2>
+          <ol class="mbr-steps">
+            <li><b>Beli kartu member</b><span>Bayar Rp20.000 untuk aktivasi. Level awal Silver dengan diskon 2%, lalu naik level untuk diskon lebih besar.</span></li>
+            <li><b>Belanja &amp; kumpulkan poin</b><span>Setiap transaksi yang memenuhi syarat mendapat 1 poin, bertambah otomatis di kartumu.</span></li>
+            <li><b>Capai 15 poin</b><span>Hadiah terbuka dan kamu mendapat kode penukaran. Makin banyak poin, levelmu naik: Silver, Gold, lalu Platinum dengan diskon makin besar.</span></li>
+            <li><b>Tukarkan ke kasir</b><span>Tunjukkan kode. Setelah dikonfirmasi, kartu kembali ke 0 untuk siklus berikutnya.</span></li>
+          </ol>
+          <p class="mbr-text">Hadiah penukaran pertama: <b id="mbrJoinReward"></b>. Hadiah siklus berikutnya diganti admin tiap 2 bulan. Selesaikan 15 poin dan kamu dapat bunga 2% dari belanja minimal Rp30.000 itu, jadi tabungan yang bisa ditukar ke Dana atau ShopeePay mulai Rp10.000. Kartu hangus jika 5 bulan tidak aktif, aktifkan ulang cukup Rp5.000.</p>
+        </div>
+        <div class="mbr__forms">
+          <form class="checkout__form summary" id="mbrForm" novalidate>
+            <h2 class="summary__title">Daftar kartu member</h2>
+            <div class="field">
+              <label for="mbrName">Nama di kartu</label>
+              <input id="mbrName" type="text" autocomplete="name" placeholder="Nama kamu" />
+              <p class="field__error" id="mbrNameErr" role="alert" hidden></p>
+            </div>
+            <div class="field">
+              <label for="mbrPhone">Nomor HP</label>
+              <input id="mbrPhone" type="text" inputmode="numeric" autocomplete="tel" placeholder="Contoh: 085755183802" />
+              <p class="field__hint">Pakai nomor yang sama saat memesan, supaya poinnya masuk ke kartu ini.</p>
+              <p class="field__error" id="mbrPhoneErr" role="alert" hidden></p>
+            </div>
+            <button type="submit" class="btn btn--primary btn--block">Daftar member</button>
+          </form>
+          <form class="checkout__form summary" id="mbrLookupForm" novalidate>
+            <h2 class="summary__title">Sudah punya kartu?</h2>
+            <div class="field">
+              <label for="mbrLookupPhone">Nomor HP terdaftar</label>
+              <input id="mbrLookupPhone" type="text" inputmode="numeric" placeholder="085755183802" />
+              <p class="field__error" id="mbrLookupErr" role="alert" hidden></p>
+            </div>
+            <button type="submit" class="btn btn--secondary btn--block">Buka kartuku</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Kartu member -->
+      <div class="container mbr" id="mbrCard" hidden>
+        <div id="mbrCardBox"></div>
+        <aside class="summary" id="mbrSide"></aside>
+      </div>
+    </section>
+
+    <!-- ========== ADMIN (tidak ada di menu navigasi, buka lewat #/admin) ========== -->
+    <section class="page" data-page="admin" aria-labelledby="h-admin" hidden>
+      <div class="container page-head">
+        <h1 id="h-admin" class="page-title">Admin</h1>
+        <p class="lead">Kelola pesanan, member, rating, dan keuangan Nuvella Caffe.</p>
+      </div>
+
+      <div class="container adm-login" id="adminLogin">
+        <form class="checkout__form" id="adminForm" novalidate>
+          <div class="field">
+            <label for="adminEmail">Email admin</label>
+            <input id="adminEmail" type="email" autocomplete="username" placeholder="email admin" />
+          </div>
+          <div class="field">
+            <label for="adminPass">Kata sandi</label>
+            <input id="adminPass" type="password" autocomplete="current-password" placeholder="kata sandi" />
+          </div>
+          <p class="field__error" id="adminError" role="alert" hidden></p>
+          <button type="submit" class="btn btn--primary btn--block">Masuk</button>
+        </form>
+      </div>
+
+      <div class="container" id="adminPanel" hidden>
+        <div class="adm-summary" id="adminMode" hidden></div>
+        <p class="field__error" id="adminMsg" role="alert" hidden></p>
+        <div class="adm-bar adm-bar--top">
+          <div class="tabs adm-tabs" role="tablist" aria-label="Bagian admin" id="adminTabs">
+            <button type="button" class="tab" role="tab" data-atab="orders" aria-selected="true">Pesanan</button>
+            <button type="button" class="tab" role="tab" data-atab="members" aria-selected="false">Member</button>
+            <button type="button" class="tab" role="tab" data-atab="reward" aria-selected="false">Hadiah &amp; Diskon</button>
+            <button type="button" class="tab" role="tab" data-atab="ratings" aria-selected="false">Rating</button>
+            <button type="button" class="tab" role="tab" data-atab="finance" aria-selected="false">Keuangan</button>
+          </div>
+          <div class="adm-bar__actions">
+            <button type="button" class="btn btn--secondary" id="adminRefresh">Muat ulang</button>
+            <button type="button" class="btn btn--secondary" id="adminLogout">Keluar</button>
+          </div>
+        </div>
+
+        <!-- Pesanan -->
+        <div id="admOrders">
+          <div class="adm-bar">
+            <div class="tabs" role="tablist" aria-label="Filter status pesanan" id="adminFilters"></div>
+          </div>
+          <ul class="adm-list" id="adminList"></ul>
+          <div class="empty" id="adminEmpty" hidden><h2>Belum ada pesanan</h2><p>Pesanan pelanggan akan muncul di sini.</p></div>
+        </div>
+
+        <!-- Member digital -->
+        <div id="admMembers" hidden>
+          <p class="field__hint" id="memberSummary"></p>
+          <ul class="adm-list" id="memberList"></ul>
+          <div class="empty" id="memberEmpty" hidden><h2>Belum ada member</h2><p>Pelanggan yang mendaftar kartu member akan muncul di sini.</p></div>
+        </div>
+
+        <!-- Pengaturan hadiah member -->
+        <div id="admReward" hidden>
+          <form class="checkout__form adm-reward" id="rewardForm" novalidate>
+            <p class="field__hint" id="rewardMeta"></p>
+            <fieldset class="field adm-reward__group">
+              <legend>Hadiah penukaran pertama</legend>
+              <input id="rwFirstTitle" type="text" maxlength="80" placeholder="Judul hadiah" aria-label="Judul hadiah pertama" />
+              <input id="rwFirstDesc" type="text" maxlength="140" placeholder="Keterangan (opsional)" aria-label="Keterangan hadiah pertama" />
+            </fieldset>
+            <fieldset class="field adm-reward__group">
+              <legend>Hadiah siklus berikutnya (ganti tiap 2 bulan)</legend>
+              <div class="adm-presets" id="rwPresets">
+                <button type="button" class="tab" data-preset="d3">Potongan 3%</button>
+                <button type="button" class="tab" data-preset="combo">Minuman &amp; makanan spesial</button>
+                <button type="button" class="tab" data-preset="pastry">1 Pastry</button>
+                <button type="button" class="tab" data-preset="cone">Es krim cone</button>
+              </div>
+              <input id="rwTitle" type="text" maxlength="80" placeholder="Judul hadiah" aria-label="Judul hadiah berikutnya" />
+              <input id="rwDesc" type="text" maxlength="140" placeholder="Keterangan (opsional)" aria-label="Keterangan hadiah berikutnya" />
+            </fieldset>
+            <div class="field">
+              <label for="rwMin">Minimal belanja per stempel (Rp)</label>
+              <input id="rwMin" type="number" min="0" step="1000" inputmode="numeric" placeholder="0 = semua transaksi" />
+              <p class="field__hint">Hanya berlaku untuk stempel otomatis dari pesanan. Kartu yang hadiahnya sudah terbuka tetap memakai hadiah saat dibuka.</p>
+            </div>
+            <fieldset class="field adm-reward__group">
+              <legend>Level member &amp; diskon (persen)</legend>
+              <p class="field__hint">Makin tinggi level, makin besar diskon. Disarankan kecil, misalnya 2, 4, dan 6.</p>
+              <label for="tgDisc0">Silver: diskon %</label>
+              <input id="tgDisc0" type="number" min="0" max="50" step="0.5" inputmode="decimal" />
+              <label for="tgMin1">Gold: mulai dari total stempel</label>
+              <input id="tgMin1" type="number" min="1" step="1" inputmode="numeric" />
+              <label for="tgDisc1">Gold: diskon %</label>
+              <input id="tgDisc1" type="number" min="0" max="50" step="0.5" inputmode="decimal" />
+              <label for="tgMin2">Platinum: mulai dari total stempel</label>
+              <input id="tgMin2" type="number" min="1" step="1" inputmode="numeric" />
+              <label for="tgDisc2">Platinum: diskon %</label>
+              <input id="tgDisc2" type="number" min="0" max="50" step="0.5" inputmode="decimal" />
+            </fieldset>
+            <fieldset class="field adm-reward__group">
+              <legend>Bunga member</legend>
+              <label for="bgMin">Minimal total pesanan (Rp)</label>
+              <input id="bgMin" type="number" min="0" step="1000" inputmode="numeric" />
+              <label for="bgRate">Bunga (%) dari total belanja saat 15 stempel selesai</label>
+              <input id="bgRate" type="number" min="0" max="50" step="0.1" inputmode="decimal" />
+              <label for="bgPayout">Saldo minimal untuk ditukar ke Dana / ShopeePay (Rp)</label>
+              <input id="bgPayout" type="number" min="0" step="1000" inputmode="numeric" />
+            </fieldset>
+            <p class="field__error" id="rewardError" role="alert" hidden></p>
+            <button type="submit" class="btn btn--primary">Simpan pengaturan</button>
+          </form>
+        </div>
+
+        <!-- Keuangan (hanya admin) -->
+        <div id="admFinance" hidden>
+          <div class="adm-bar">
+            <div class="field adm-fin__year"><label for="finYear">Tahun</label><select id="finYear"></select></div>
+          </div>
+          <div class="adm-fin" id="finMonths"></div>
+          <div id="finDetail"></div>
+        </div>
+
+        <!-- Rating pelanggan -->
+        <div id="admRatings" hidden>
+          <div class="adm-ratesum" id="ratingSummary"></div>
+          <div class="adm-bar"><div class="tabs" role="tablist" aria-label="Filter rating" id="ratingFilters"></div></div>
+          <ul class="adm-list" id="ratingList"></ul>
+          <div class="empty" id="ratingEmpty" hidden><h2>Belum ada rating</h2><p>Rating muncul setelah pelanggan menyelesaikan pesanan dan memberi bintang.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section class="page" data-page="faq" aria-labelledby="h-faq" hidden>
+      <div class="container page-head">
+        <h1 id="h-faq" class="page-title">Apa yang Bisa Kami Bantu?</h1>
+        <p class="lead">Jawaban singkat untuk pertanyaan yang paling sering kami terima.</p>
+      </div>
+      <div class="container faq" id="faqList"></div>
+      <div class="container faq-cta">
+        <p>Belum menemukan jawabannya?</p>
+        <a class="btn btn--whatsapp" href="https://wa.me/6285755183802" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>
+          Chat kami di WhatsApp
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== FOOTER (LOKASI & JAM OPERASIONAL) ========== -->
+  <footer class="footer" id="lokasi" aria-labelledby="h-lokasi">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="#/beranda" class="brand"><span class="brand__name">Nuvella</span><span class="brand__suffix">Caffe</span></a>
+        <p>Coffe spesialti dan dessert segar untuk orang sibuk. Pesan lebih dulu, ambil tepat waktu tanpa antre.</p>
+        <div class="footer__more">
+          <p>Diseduh dari biji kopi lokal lereng Wilis dan Ijen, ditemani cheesecake, mille crepe, dan pastry buatan sendiri.</p>
+          <nav class="footer__links" aria-label="Tautan cepat"><a href="#/menu">Menu</a><a href="#/reservasi">Reservasi</a><a href="#/tentang">Tentang Kami</a><a href="#/faq">FAQ</a><a href="#/cake-studio">Cake Studio</a><a href="#/member">Member</a></nav>
+        </div>
+      </div>
+
+      <div class="location__address">
+        <h2 id="h-lokasi" class="section-title">Lokasi Kami</h2>
+        <p class="address">Jl. Pahlawan No.15<br />Madiun, Jawa Timur</p>
+        <div class="footer__actions">
+          <a class="btn btn--primary" href="https://maps.app.goo.gl/GNSXw5ZwTUwLgeHZ6?g_st=aw" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            Buka di Google Maps
+          </a>
+          <a class="btn btn--whatsapp" href="https://wa.me/6285792304941" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>
+            0857-9230-4941
+          </a>
+          <a class="btn btn--secondary" href="https://www.instagram.com/nuvella_coffe?psln=aDMzMnN2ZzUzOTdp" target="_blank" rel="noopener" aria-label="Buka Instagram Nuvella Caffe" style="color:#ffffff;font-weight:700;">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6"/></svg>
+            Instagram @nuvella_coffe
+          </a>
+        </div>
+      </div>
+
+      <div class="location__hours">
+        <h2 class="section-title">Jam operasional</h2>
+        <table class="hours" id="hoursTable">
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <p class="container footer__copy">© 2025 Nuvella Caffe, Madiun</p>
+  </footer>
+
+  <!-- ========== NAVIGASI BAWAH (HP) ========== -->
+  <nav class="bottomnav" aria-label="Navigasi cepat">
+    <a href="#/beranda" data-nav="beranda"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg>Beranda</a>
+    <a href="#/tentang" data-nav="tentang"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>Tentang</a>
+    <a href="#/menu" data-nav="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v5a6 6 0 0 1-12 0z"/><path d="M17 9h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3v2M11 3v2M14 3v2"/></svg>Menu</a>
+    <a href="#/cake-studio" data-nav="cake-studio" aria-label="Cake Studio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16v-7H4z"/><path d="M4 16.5c2 1.4 3 1.4 4 0s3-1.4 4 0 3 1.4 4 0 2-1.4 4 0"/><path d="M12 13V9.5"/><path d="M12 5.5c.9 1 .9 2 0 2.8-.9-.8-.9-1.8 0-2.8z"/></svg>Cake</a>
+    <a href="#/member" data-nav="member"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>Member</a>
+    <a href="#/reservasi" data-nav="reservasi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>Reservasi</a>
+    <a href="#/faq" data-nav="faq"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7"/><path d="M12 17h.01"/></svg>FAQ</a>
+  </nav>
+
+  <!-- ========== ORDER SUMMARY CAKE STUDIO ========== -->
+  <div class="ckmodal" id="ckModal" role="dialog" aria-modal="true" aria-labelledby="ckModalTitle" hidden>
+    <div class="ckmodal__box">
+      <button type="button" class="ckmodal__close" id="ckModalClose" aria-label="Tutup">×</button>
+      <ol class="ckflow" id="ckFlow" aria-label="Alur pemesanan custom cake">
+        <li><span>1</span>Cake Studio</li>
+        <li><span>2</span>Order Summary</li>
+        <li><span>3</span>WhatsApp</li>
+        <li><span>4</span>Konfirmasi Admin</li>
+      </ol>
+
+      <div id="mdForm">
+        <h2 id="ckModalTitle" class="ckmodal__title">Order Summary</h2>
+        <div class="ckmodal__grid">
+          <div class="ckmodal__pic">
+            <img id="mdDesign" alt="Gambar desain kue yang akan dikirim ke admin" />
+            <p class="field__hint">Gambar desain ini yang dikirim ke admin.</p>
+          </div>
+
+          <div class="ckmodal__form">
+            <div class="field">
+              <label for="mdName">Nama pemesan</label>
+              <input id="mdName" type="text" autocomplete="name" placeholder="Nama kamu" />
+            </div>
+            <div class="field">
+              <label for="mdTheme">Tema kue <span class="optional">(opsional)</span></label>
+              <input id="mdTheme" type="text" maxlength="60" placeholder="Contoh: Ulang tahun, tema pastel" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="mdText">Tulisan pada kue <span class="optional">(opsional)</span></label>
+              <input id="mdText" type="text" maxlength="20" placeholder="Contoh: Happy Birthday Rani" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="mdDate">Tanggal pengambilan</label>
+              <input id="mdDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="mdRef">Upload foto referensi <span class="optional">(opsional)</span></label>
+              <input id="mdRef" type="file" accept="image/*" />
+              <div class="ckref" id="mdRefBox" hidden>
+                <img id="mdRefImg" alt="Foto referensi yang kamu pilih" />
+                <button type="button" class="btn btn--secondary" id="mdRefClear">Hapus foto</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ul class="summary__items ckmodal__items" id="mdItems"></ul>
+        <div class="summary__total"><span>Estimasi total</span><strong id="mdTotal">Rp0</strong></div>
+        <p class="field__error" id="mdError" role="alert" hidden></p>
+
+        <div class="ckmodal__actions">
+          <button type="button" class="btn btn--primary btn--block" id="mdSend">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>
+            <span class="btn__label">Kirim ke WhatsApp Admin</span>
+          </button>
+          <button type="button" class="btn btn--secondary btn--block" id="mdShare" hidden>Bagikan gambar + pesan (HP)</button>
+          <button type="button" class="btn btn--secondary btn--block" id="mdSave">Simpan gambar desain</button>
+          <button type="button" class="btn btn--secondary btn--block" id="mdBack">← Ubah desain</button>
+        </div>
+        <p class="summary__note">Setelah terkirim, admin mengonfirmasi ketersediaan dan harga akhir lewat WhatsApp. Gambar desain tersimpan otomatis, tinggal dilampirkan di chat.</p>
+      </div>
+
+      <div id="mdDone" class="ckdone" hidden>
+        <h2 class="ckmodal__title">Pesanan dikirim ke WhatsApp</h2>
+        <p>Chat ke admin (0857-9230-4941) sudah terbuka dengan ringkasan pesananmu.</p>
+        <ol class="ckdone__steps">
+          <li><strong>Lampirkan gambar desain</strong> (sudah tersimpan di galeri atau folder unduhan) beserta foto referensi bila ada, lalu kirim.</li>
+          <li><strong>Tunggu konfirmasi admin</strong> soal ketersediaan, jadwal, dan harga akhir.</li>
+        </ol>
+        <div class="ckmodal__actions">
+          <a class="btn btn--whatsapp btn--block" id="mdReopen" href="#" target="_blank" rel="noopener">Buka WhatsApp lagi</a>
+          <button type="button" class="btn btn--primary btn--block" id="mdFinish">Selesai</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== NOTIFIKASI ========== -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script>
+    /* Modul ES tidak bisa dimuat lewat file:// — beri petunjuk, bukan halaman kosong */
+    if (location.protocol === "file:") {
+      document.addEventListener("DOMContentLoaded", function () {
+        document.body.insertAdjacentHTML("afterbegin", '<div style="position:fixed;inset:0;z-index:99999;background:#fbf4ec;color:#3d2a1f;font:16px/1.6 system-ui,sans-serif;padding:32px;overflow:auto"><h1 style="font-size:22px;margin:0 0 12px">Buka lewat server lokal</h1><p>Situs ini memakai ES modules, jadi tidak bisa dibuka dengan klik dua kali pada index.html.</p><p>Cara termudah: di VS Code pasang ekstensi <b>Live Server</b> lalu klik <b>Go Live</b>, atau jalankan <code>python3 -m http.server</code> di folder ini lalu buka <code>http://localhost:8000</code>.</p></div>');
+      });
+    }
+  </script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
